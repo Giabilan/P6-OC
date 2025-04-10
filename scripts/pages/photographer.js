@@ -1,0 +1,80 @@
+// Importer les fonctions nécessaires
+import { displayPhotographerMedia } from "../utils/mediaUtils.js";
+
+//Mettre le code JavaScript lié à la page photographer.html
+function getPhotographerIdFromUrl() {
+  const searchParams = new URLSearchParams(window.location.search);
+  const id = searchParams.get("id");
+  return id;
+}
+
+/**
+ * Charge le fichier JSON contenant la liste des photographes.
+ * On retourne ici directement le tableau de photographes.
+ */
+async function getPhotographer(id) {
+  let response = await fetch("../data/photographers.json");
+  let data = await response.json();
+  console.log(data);
+  // Rechercher le photographe dont l'id correspond
+  const photographer = data.photographers.find((p) => p.id == id);
+  return photographer;
+}
+
+/**
+ * Affiche les informations du photographe dans le header de la page photographer.html.
+ * Ici, nous créons dynamiquement des éléments HTML pour afficher le nom, la localisation, la tagline et le portrait.
+ */
+function displayPhotographerData(photographer) {
+  // Sélectionne le conteneur qui contient l'entête du photographe
+  const header = document.querySelector(".photograph-header");
+  const photographerModel = photographerTemplate(photographer);
+  const userHeaderDom = photographerModel.getHeaderUserDOM();
+  name = photographerModel.name;
+  header.appendChild(userHeaderDom);
+}
+
+let name = "";
+
+async function init() {
+  // Récupérer l'ID depuis l'URL
+  const id = getPhotographerIdFromUrl();
+
+  // Charger la liste des photographes
+  const photographer = await getPhotographer(id);
+
+  if (photographer) {
+    // Si trouvé, afficher les informations du photographe
+    displayPhotographerData(photographer, name);
+
+    // Afficher les médias du photographe
+    displayPhotographerMedia(id, name);
+  } else {
+    // Sinon, afficher une erreur dans la console (ou gérer le cas d'erreur)
+    console.error("Photographe non trouvé pour l'ID :", id);
+  }
+}
+
+// Fonction pour mettre à jour le total des likes
+function updateTotalLikes() {
+  const likesCounts = document.querySelectorAll(".likes-count");
+  let total = 0;
+
+  likesCounts.forEach((count) => {
+    total += parseInt(count.textContent);
+  });
+
+  document.getElementById("total-likes").textContent = total;
+}
+
+// Ajouter cet événement après avoir initialisé la page
+document.getElementById("sorting-select").addEventListener("change", (e) => {
+  const photographerId = getPhotographerIdFromUrl();
+  const photographerName = name;
+  displayPhotographerMedia(photographerId, photographerName, e.target.value);
+});
+
+// Écouter l'événement de mise à jour des likes
+document.addEventListener("likesUpdated", updateTotalLikes);
+
+init();
