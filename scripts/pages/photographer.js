@@ -1,6 +1,4 @@
-// Importer les fonctions nécessaires
-import { displayPhotographerMedia } from "../utils/mediaUtils.js";
-
+let name = "";
 //Mettre le code JavaScript lié à la page photographer.html
 function getPhotographerIdFromUrl() {
   const searchParams = new URLSearchParams(window.location.search);
@@ -34,8 +32,6 @@ function displayPhotographerData(photographer) {
   header.appendChild(userHeaderDom);
 }
 
-let name = "";
-
 async function init() {
   // Récupérer l'ID depuis l'URL
   const id = getPhotographerIdFromUrl();
@@ -46,35 +42,29 @@ async function init() {
   if (photographer) {
     // Si trouvé, afficher les informations du photographe
     displayPhotographerData(photographer, name);
-
     // Afficher les médias du photographe
-    displayPhotographerMedia(id, name);
+    await displayPhotographerMedia(id, name);
+    // Ajouter cet événement après avoir initialisé la page
+    document.getElementById("sorting-select").addEventListener("change", (e) => {
+     displayPhotographerMedia(id, name, e.target.value);
+    });
+    
+    updateTotalLikes();
   } else {
     // Sinon, afficher une erreur dans la console (ou gérer le cas d'erreur)
     console.error("Photographe non trouvé pour l'ID :", id);
   }
 }
-
 // Fonction pour mettre à jour le total des likes
 function updateTotalLikes() {
   const likesCounts = document.querySelectorAll(".likes-count");
   let total = 0;
-
+console.log(likesCounts);
   likesCounts.forEach((count) => {
     total += parseInt(count.textContent);
   });
 
   document.getElementById("total-likes").textContent = total;
 }
-
-// Ajouter cet événement après avoir initialisé la page
-document.getElementById("sorting-select").addEventListener("change", (e) => {
-  const photographerId = getPhotographerIdFromUrl();
-  const photographerName = name;
-  displayPhotographerMedia(photographerId, photographerName, e.target.value);
-});
-
-// Écouter l'événement de mise à jour des likes
-document.addEventListener("likesUpdated", updateTotalLikes);
 
 init();

@@ -1,6 +1,3 @@
-// Importer la fonction sortMedias
-import { sortMedias } from "./sortUtils.js";
-
 // Fonction pour récupérer les médias d'un photographe
 async function getPhotographerMedia(photographerId) {
   try {
@@ -48,12 +45,11 @@ async function displayPhotographerMedia(
   });
 
   // Calculer et afficher le total des likes
-  displayTotalLikes(media);
+  displayTotalLikes();
 }
 
 // Fonction pour calculer et afficher le total des likes
-function displayTotalLikes(media) {
-  const totalLikes = media.reduce((sum, item) => sum + item.likes, 0);
+function displayTotalLikes() {
   let likesCounter = document.querySelector(".total-likes-counter");
 
   if (!likesCounter) {
@@ -62,7 +58,6 @@ function displayTotalLikes(media) {
 
     const likesCount = document.createElement("span");
     likesCount.id = "total-likes";
-    likesCount.textContent = totalLikes;
 
     const heartIcon = document.createElement("i");
     heartIcon.classList.add("fas", "fa-heart");
@@ -72,10 +67,6 @@ function displayTotalLikes(media) {
 
     const main = document.querySelector("main");
     main.appendChild(likesCounter);
-  } else {
-    document.getElementById("total-likes").textContent = totalLikes;
   }
 }
 
-// Exporter les fonctions pour les rendre accessibles
-export { getPhotographerMedia, displayPhotographerMedia, displayTotalLikes };

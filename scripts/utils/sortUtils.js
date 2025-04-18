@@ -1,5 +1,5 @@
 // Fonction pour trier les médias
-export function sortMedias(medias, sortBy) {
+function sortMedias(medias, sortBy) {
   switch (sortBy) {
     case "title":
       return [...medias].sort((a, b) => a.title.localeCompare(b.title));

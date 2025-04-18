@@ -71,57 +71,57 @@ main {
 
 /* media section */
 .photographer-media {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 50px;
-  width: 100%;
   margin: 0 auto;
-  padding: 50px 0;
-  justify-content: center;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 30px;
+  justify-content: space-between;
 }
 
 /* Style pour les cartes de média */
 .media-card {
   display: flex;
   flex-direction: column;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 20px;
+  width: 30%;
+  height: 300px;
 }
 
 .media-card img {
   width: 100%;
-  height: 300px;
+  height: 80%;
   object-fit: cover;
   border-radius: 5px;
 }
 
 .media-card video {
   width: 100%;
-  height: 300px;
+  height: 80%;
   object-fit: cover;
   border-radius: 5px;
 }
 
 .media-info {
-  padding: 10px 0;
+  width: 96%;
+  height: 20%;
+  padding-left: 2%;
+  padding-right: 2%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+/* Ajout de styles spécifiques pour correspondre à l'image */
+.media-info h2 {
+  color: #901c1c;
+  font-size: 24px;
+  font-weight: 400;
 }
 
 .media-stats {
   display: flex;
   justify-content: space-between;
-  width: 100%;
   align-items: center;
-}
-
-/* Ajout de styles spécifiques pour correspondre à l'image */
-.media-stats h2 {
-  color: #901c1c;
-  font-size: 24px;
-  font-weight: 400;
 }
 
 .likes-container {

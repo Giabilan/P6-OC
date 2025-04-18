@@ -21,7 +21,11 @@ function mediaTemplate(data, photographerName) {
       mediaElement.setAttribute("controls", true);
       mediaElement.setAttribute("aria-label", title);
     }
-
+    // Gestion du clic pour la lightbox
+    mediaElement.addEventListener("click", function (e) {
+      e.preventDefault();
+      console.log("ouvrir la lightbox");
+    });
     // Création de la structure d'information du média
     const infoDiv = document.createElement("div");
     infoDiv.classList.add("media-info");
@@ -58,32 +62,49 @@ function mediaTemplate(data, photographerName) {
         heartIcon.classList.remove("liked");
       }
       likesCount.textContent = mediaLikes;
-      document.dispatchEvent(new CustomEvent("likesUpdated"));
+      updateTotalLikes();
     });
 
     // Assemblage des éléments
     likesContainer.appendChild(likesCount);
     likesContainer.appendChild(heartIcon);
 
-    statsDiv.appendChild(titleElement);
+    infoDiv.appendChild(titleElement);
     statsDiv.appendChild(likesContainer);
     infoDiv.appendChild(statsDiv);
 
     article.appendChild(mediaElement);
     article.appendChild(infoDiv);
 
-    // Gestion du clic pour la lightbox
-    article.addEventListener("click", function (e) {
-      e.preventDefault();
-      document.dispatchEvent(
-        new CustomEvent("openLightbox", {
-          detail: { mediaId: id, photographerId },
-        })
-      );
-    });
+
 
     return article;
   }
+  function getMediaLightBoxDOM() {
+    const content = document.createElement("div");
+    content.classList.add("card-lightbox");
 
-  return { getMediaCardDOM };
+    // Création de l'élément média (image ou vidéo)
+    let mediaElement;
+    if (image) {
+      mediaElement = document.createElement("img");
+      mediaElement.setAttribute("src", `${mediaPath}/${image}`);
+      mediaElement.setAttribute("alt", title);
+    }
+    if (video) {
+      mediaElement = document.createElement("video");
+      mediaElement.setAttribute("src", `${mediaPath}/${video}`);
+      mediaElement.setAttribute("controls", true);
+      mediaElement.setAttribute("aria-label", title);
+    }
+
+    // Création du titre sous l'image
+    const titleElement = document.createElement("h2");
+    titleElement.textContent = title;
+    content.appendChild(mediaElement);
+    content.appendChild(titleElement);
+    
+    return content;
+  }
+  return { getMediaCardDOM, getMediaLightBoxDOM };
 }

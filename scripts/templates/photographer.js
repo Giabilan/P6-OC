@@ -2,7 +2,7 @@ function photographerTemplate(data) {
   // Récupérer toute la data
   const { name, id, city, country, tagline, price, portrait } = data;
 
-  const picture = `assets/photographers/${portrait}`;
+  const picture = `./assets/photographers/${portrait}`;
 
   function getUserCardDOM() {
     const link = document.createElement("a");
@@ -76,7 +76,7 @@ function photographerTemplate(data) {
 
     // Création de l'image portrait du photographe
     const portraitImage = document.createElement("img");
-    portraitImage.src = `assets/photographers/${portrait}`;
+    portraitImage.src = `./assets/photographers/${portrait}`;
     portraitImage.alt = "Portrait de " + name;
 
     infoContainer.appendChild(firstContainer);
