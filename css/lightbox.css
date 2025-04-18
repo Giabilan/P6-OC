@@ -5,7 +5,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.9);
+  background: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,8 +15,6 @@
 /* Conteneur principal de la lightbox */
 .lightbox-container {
   position: relative;
-  max-width: 90%;
-  max-height: 90vh;
 }
 
 /* Conteneur du média (image/vidéo) */
@@ -29,9 +27,9 @@
 /* Style des médias */
 .lightbox-media-container img,
 .lightbox-media-container video {
-  max-width: 100%;
-  max-height: 80vh;
-  object-fit: contain;
+  width: 1000px;
+  height: 900px;
+  object-fit: cover;
 }
 
 /* Style commun pour tous les boutons */
@@ -40,8 +38,6 @@
 .lightbox-next {
   background: transparent;
   border: none;
-  color: white;
-  font-size: 2rem;
   cursor: pointer;
   position: absolute;
   padding: 1rem;
@@ -49,27 +45,68 @@
 
 /* Position du bouton fermer */
 .lightbox-close {
-  top: -40px;
-  right: 0;
+  top: -14px;
+  right: -70px;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1010;
+}
+
+/* Remplacer le texte par une image pour le bouton fermer */
+.lightbox-close::before {
+  display: none;
+}
+
+.lightbox-close img {
+  display: block;
+  width: 42px;
+  height: 42px;
+  filter: none;
 }
 
 /* Position du bouton précédent */
 .lightbox-prev {
-  left: -60px;
+  left: -80px;
   top: 50%;
   transform: translateY(-50%);
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style de l'image du bouton précédent */
+.lightbox-prev img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
 /* Position du bouton suivant */
 .lightbox-next {
-  right: -60px;
+  right: -80px;
   top: 50%;
   transform: translateY(-50%);
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style de l'image du bouton suivant */
+.lightbox-next img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
 /* Style du titre */
 .lightbox-title {
-  color: white;
-  text-align: center;
+  color: #901c1c;
+  text-align: left;
   margin-top: 1rem;
+  font-size: 24px;
+  font-weight: normal;
 }

@@ -24,7 +24,34 @@ function mediaTemplate(data, photographerName) {
     // Gestion du clic pour la lightbox
     mediaElement.addEventListener("click", function (e) {
       e.preventDefault();
-      console.log("ouvrir la lightbox");
+      // Récupérer tous les médias pour les passer à la lightbox
+      const allMedias = Array.from(
+        document.querySelectorAll(".media-card")
+      ).map((card, index) => {
+        const mediaTitle = card.querySelector("h2").textContent;
+        const mediaImg = card.querySelector("img");
+        const mediaVideo = card.querySelector("video");
+
+        return {
+          id: index,
+          title: mediaTitle,
+          image: mediaImg
+            ? mediaImg.getAttribute("src").split("/").pop()
+            : null,
+          video: mediaVideo
+            ? mediaVideo.getAttribute("src").split("/").pop()
+            : null,
+        };
+      });
+
+      // Trouver l'index du média actuel (celui sur lequel on a cliqué)
+      const currentIndex = Array.from(
+        document.querySelectorAll(".media-card")
+      ).indexOf(article);
+
+      // Créer et afficher la lightbox
+      const lightbox = new Lightbox(allMedias, photographerName);
+      lightbox.show(currentIndex);
     });
     // Création de la structure d'information du média
     const infoDiv = document.createElement("div");
@@ -76,8 +103,6 @@ function mediaTemplate(data, photographerName) {
     article.appendChild(mediaElement);
     article.appendChild(infoDiv);
 
-
-
     return article;
   }
   function getMediaLightBoxDOM() {
@@ -103,7 +128,7 @@ function mediaTemplate(data, photographerName) {
     titleElement.textContent = title;
     content.appendChild(mediaElement);
     content.appendChild(titleElement);
-    
+
     return content;
   }
   return { getMediaCardDOM, getMediaLightBoxDOM };

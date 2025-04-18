@@ -21,18 +21,39 @@ class Lightbox {
     // Bouton fermer
     const closeBtn = document.createElement("button");
     closeBtn.classList.add("lightbox-close");
-    closeBtn.innerHTML = "&times;";
+    closeBtn.setAttribute("aria-label", "Fermer la lightbox");
+
+    // Ajouter une image pour le bouton de fermeture
+    const closeImg = document.createElement("img");
+    closeImg.src = "assets/icons/close_lightbox.png";
+    closeImg.alt = "Fermer la lightbox";
+    closeBtn.appendChild(closeImg);
+
     closeBtn.onclick = () => this.close();
 
     // Boutons navigation
     const prevBtn = document.createElement("button");
     prevBtn.classList.add("lightbox-prev");
-    prevBtn.innerHTML = "&lt;";
+    prevBtn.setAttribute("aria-label", "Image précédente");
+
+    // Ajouter une image pour le bouton précédent
+    const prevImg = document.createElement("img");
+    prevImg.src = "assets/icons/arrow_left.png";
+    prevImg.alt = "Précédent";
+    prevBtn.appendChild(prevImg);
+
     prevBtn.onclick = () => this.showPrevious();
 
     const nextBtn = document.createElement("button");
     nextBtn.classList.add("lightbox-next");
-    nextBtn.innerHTML = "&gt;";
+    nextBtn.setAttribute("aria-label", "Image suivante");
+
+    // Ajouter une image pour le bouton suivant
+    const nextImg = document.createElement("img");
+    nextImg.src = "assets/icons/arrow_right.png";
+    nextImg.alt = "Suivant";
+    nextBtn.appendChild(nextImg);
+
     nextBtn.onclick = () => this.showNext();
 
     // Conteneur média
