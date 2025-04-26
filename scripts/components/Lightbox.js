@@ -25,7 +25,7 @@ class Lightbox {
 
     // Ajouter une image pour le bouton de fermeture
     const closeImg = document.createElement("img");
-    closeImg.src = "assets/icons/close_lightbox.png";
+    closeImg.src = "/assets/icons/close_lightbox.png";
     closeImg.alt = "Fermer la lightbox";
     closeBtn.appendChild(closeImg);
 
@@ -38,7 +38,7 @@ class Lightbox {
 
     // Ajouter une image pour le bouton précédent
     const prevImg = document.createElement("img");
-    prevImg.src = "assets/icons/arrow_left.png";
+    prevImg.src = "/assets/icons/arrow_left.png";
     prevImg.alt = "Précédent";
     prevBtn.appendChild(prevImg);
 
@@ -50,7 +50,7 @@ class Lightbox {
 
     // Ajouter une image pour le bouton suivant
     const nextImg = document.createElement("img");
-    nextImg.src = "assets/icons/arrow_right.png";
+    nextImg.src = "/assets/icons/arrow_right.png";
     nextImg.alt = "Suivant";
     nextBtn.appendChild(nextImg);
 
@@ -95,15 +95,15 @@ class Lightbox {
 
     if (currentMedia.image) {
       const img = document.createElement("img");
-      img.src = `assets/photographers/media/${
-        this.photographerName.split(" ")[0]
+      img.src = `/assets/photographers/media/${
+        this.photographerName.split(" ")[0].replace("-", " ")
       }/${currentMedia.image}`;
       img.alt = currentMedia.title;
       mediaContainer.appendChild(img);
     } else if (currentMedia.video) {
       const video = document.createElement("video");
-      video.src = `assets/photographers/media/${
-        this.photographerName.split(" ")[0]
+      video.src = `/assets/photographers/media/${
+        this.photographerName.split(" ")[0].replace("-", " ")
       }/${currentMedia.video}`;
       video.controls = true;
       mediaContainer.appendChild(video);
