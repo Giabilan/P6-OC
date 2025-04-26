@@ -223,3 +223,121 @@ form input {
   border: none;
   border-radius: 5px;
 }
+
+/* toalLikes */
+
+.total-likes-counter {
+  font-size: 24px;
+  font-weight: 500;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+  background-color: #db8876;
+  padding: 15px 20px;
+  border-radius: 5px;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.total-likes-counter .fa-heart {
+  margin-left: 5px;
+}
+
+.photographer-price-display {
+  margin-left: 80px;
+}
+
+.photographer-price-display .photographer-price {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+/* Style pour le menu de tri */
+#sorting-select {
+  background-color: #901c1c;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  width: 170px;
+  margin: 20px 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+/* Style personnalisé pour la liste déroulante */
+#sorting-select option {
+  background-color: #901c1c;
+  color: white;
+  padding: 15px;
+  font-size: 18px;
+  border: none;
+}
+
+/* Style personnalisé pour le menu déroulant ouvert */
+select#sorting-select::-ms-expand {
+  display: none;
+}
+
+/* Reset le style natif de Firefox */
+select#sorting-select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 white;
+}
+
+/* Personnalisation plus poussée avec JS */
+/* Ces styles serviront de base pour le menu personnalisé créé en JS */
+.custom-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 79px;
+  width: 200px;
+  background-color: #901c1c;
+  margin-top: -3px;
+  overflow: hidden;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+.custom-select-dropdown div {
+  padding: 15px;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 1px solid white;
+}
+
+.custom-select-dropdown div:hover,
+.custom-select-dropdown div.selected {
+  background-color: #bd3b21;
+}
+
+.custom-select-dropdown div:last-child {
+  border-bottom: none;
+}
+
+/* Ajout d'un label pour le select */
+.sorting-label {
+  font-size: 18px;
+  font-weight: 700;
+  margin-right: 10px;
+  color: black;
+}
+
+.sorting-container {
+  display: flex;
+  align-items: center;
+  margin: 20px 0 50px 0;
+  position: relative;
+}

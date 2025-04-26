@@ -1,4 +1,5 @@
 let name = "";
+let photographerPrice = 0; // Variable pour stocker le prix du photographe
 //Mettre le code JavaScript lié à la page photographer.html
 function getPhotographerIdFromUrl() {
   const searchParams = new URLSearchParams(window.location.search);
@@ -29,6 +30,7 @@ function displayPhotographerData(photographer) {
   const photographerModel = photographerTemplate(photographer);
   const userHeaderDom = photographerModel.getHeaderUserDOM();
   name = photographerModel.name;
+  photographerPrice = photographer.price; // Stocker le prix du photographe
   header.appendChild(userHeaderDom);
 }
 
@@ -45,10 +47,12 @@ async function init() {
     // Afficher les médias du photographe
     await displayPhotographerMedia(id, name);
     // Ajouter cet événement après avoir initialisé la page
-    document.getElementById("sorting-select").addEventListener("change", (e) => {
-     displayPhotographerMedia(id, name, e.target.value);
-    });
-    
+    document
+      .getElementById("sorting-select")
+      .addEventListener("change", (e) => {
+        displayPhotographerMedia(id, name, e.target.value);
+      });
+
     updateTotalLikes();
   } else {
     // Sinon, afficher une erreur dans la console (ou gérer le cas d'erreur)
@@ -59,12 +63,34 @@ async function init() {
 function updateTotalLikes() {
   const likesCounts = document.querySelectorAll(".likes-count");
   let total = 0;
-console.log(likesCounts);
+  console.log(likesCounts);
   likesCounts.forEach((count) => {
     total += parseInt(count.textContent);
   });
 
   document.getElementById("total-likes").textContent = total;
+
+  // Ajouter le prix du photographe
+  const priceElement = document.getElementById("photographer-price");
+  if (priceElement) {
+    priceElement.textContent = photographerPrice + "€ / jour";
+  } else {
+    // Créer l'élément de prix s'il n'existe pas encore
+    const likesCounter = document.querySelector(".total-likes-counter");
+    if (likesCounter) {
+      const priceDiv = document.createElement("div");
+      priceDiv.classList.add("photographer-price-display");
+
+      const priceText = document.createElement("span");
+      priceText.id = "photographer-price";
+      priceText.textContent = photographerPrice + "€ / jour";
+
+      priceDiv.appendChild(priceText);
+
+      // Ajouter le prix juste après le compteur de likes
+      likesCounter.appendChild(priceDiv);
+    }
+  }
 }
 
 init();
