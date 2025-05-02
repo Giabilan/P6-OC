@@ -25,7 +25,7 @@ function photographerTemplate(data) {
     cityTxt.textContent = city + ", ";
     countryTxt.textContent = country;
     taglineTxt.textContent = tagline;
-    priceTxt.textContent = price ;
+    priceTxt.textContent = price + "€/jour";
 
     article.appendChild(img);
     article.appendChild(divDetail);

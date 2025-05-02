@@ -1,6 +1,6 @@
 let name = "";
-let photographerPrice = 0; // Variable pour stocker le prix du photographe
-//Mettre le code JavaScript lié à la page photographer.html
+let photographerPrice = 0;
+
 function getPhotographerIdFromUrl() {
   const searchParams = new URLSearchParams(window.location.search);
   const id = searchParams.get("id");
@@ -15,30 +15,22 @@ async function getPhotographer(id) {
   let response = await fetch("../data/photographers.json");
   let data = await response.json();
   console.log(data);
-  // Rechercher le photographe dont l'id correspond
   const photographer = data.photographers.find((p) => p.id == id);
   return photographer;
 }
 
-/**
- * Affiche les informations du photographe dans le header de la page photographer.html.
- * Ici, nous créons dynamiquement des éléments HTML pour afficher le nom, la localisation, la tagline et le portrait.
- */
 function displayPhotographerData(photographer) {
-  // Sélectionne le conteneur qui contient l'entête du photographe
   const header = document.querySelector(".photograph-header");
   const photographerModel = photographerTemplate(photographer);
   const userHeaderDom = photographerModel.getHeaderUserDOM();
   name = photographerModel.name;
-  photographerPrice = photographer.price; // Stocker le prix du photographe
+  photographerPrice = photographer.price;
   header.appendChild(userHeaderDom);
 }
 
 async function init() {
-  // Récupérer l'ID depuis l'URL
   const id = getPhotographerIdFromUrl();
 
-  // Charger la liste des photographes
   const photographer = await getPhotographer(id);
 
   if (photographer) {

@@ -91,7 +91,6 @@ function initCustomSelect() {
     sortingContainer.removeChild(existingDropdown);
   }
 
-  // Ajouter les nouveaux éléments au DOM
   sortingContainer.appendChild(customSelect);
   sortingContainer.appendChild(dropdown);
 }
@@ -99,7 +98,6 @@ function initCustomSelect() {
 // Initialiser le select personnalisé après le chargement du DOM
 document.addEventListener("DOMContentLoaded", initCustomSelect);
 
-// Fonction pour trier les médias en fonction du critère sélectionné
 function sortMedias(mediaArray, sortBy = "title") {
   const sortedArray = [...mediaArray];
 

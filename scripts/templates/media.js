@@ -1,5 +1,5 @@
 function mediaTemplate(data, photographerName) {
-  const { id, photographerId, title, image, video, likes } = data;
+  const { title, image, video, likes } = data;
   let mediaLikes = likes;
   const string = photographerName.split(" ")[0].replace("-", " ");
   const mediaPath = `./assets/photographers/media/${string}`;
@@ -105,31 +105,6 @@ function mediaTemplate(data, photographerName) {
 
     return article;
   }
-  function getMediaLightBoxDOM() {
-    const content = document.createElement("div");
-    content.classList.add("card-lightbox");
 
-    // Création de l'élément média (image ou vidéo)
-    let mediaElement;
-    if (image) {
-      mediaElement = document.createElement("img");
-      mediaElement.setAttribute("src", `${mediaPath}/${image}`);
-      mediaElement.setAttribute("alt", title);
-    }
-    if (video) {
-      mediaElement = document.createElement("video");
-      mediaElement.setAttribute("src", `${mediaPath}/${video}`);
-      mediaElement.setAttribute("controls", true);
-      mediaElement.setAttribute("aria-label", title);
-    }
-
-    // Création du titre sous l'image
-    const titleElement = document.createElement("h2");
-    titleElement.textContent = title;
-    content.appendChild(mediaElement);
-    content.appendChild(titleElement);
-
-    return content;
-  }
-  return { getMediaCardDOM, getMediaLightBoxDOM };
+  return { getMediaCardDOM };
 }
