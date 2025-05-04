@@ -23,9 +23,19 @@ function initCustomSelect() {
   customSelect.style.backgroundPosition = "right 10px center";
   customSelect.style.userSelect = "none";
 
+  // Ajouter les attributs d'accessibilité
+  customSelect.setAttribute("tabindex", "0");
+  customSelect.setAttribute("role", "combobox");
+  customSelect.setAttribute("aria-haspopup", "listbox");
+  customSelect.setAttribute("aria-expanded", "false");
+  customSelect.setAttribute("aria-label", "Trier les médias");
+
   // Créer le dropdown
   const dropdown = document.createElement("div");
   dropdown.classList.add("custom-select-dropdown");
+  dropdown.setAttribute("role", "listbox");
+  dropdown.setAttribute("aria-label", "Options de tri");
+  dropdown.style.display = "none";
 
   // Remplir le dropdown avec les options du select
   const selectedOption = select.options[select.selectedIndex];
@@ -41,8 +51,12 @@ function initCustomSelect() {
     const optionElement = document.createElement("div");
     optionElement.textContent = option.textContent;
     optionElement.dataset.value = option.value;
+    optionElement.setAttribute("role", "option");
+    optionElement.setAttribute("tabindex", "0");
+    optionElement.setAttribute("aria-selected", "false");
 
-    optionElement.addEventListener("click", () => {
+    // Fonction pour sélectionner une option
+    function selectOption() {
       // Mettre à jour la sélection
       select.value = option.value;
       customSelect.textContent = option.textContent;
@@ -53,25 +67,99 @@ function initCustomSelect() {
 
       // Fermer le dropdown
       dropdown.style.display = "none";
+      customSelect.setAttribute("aria-expanded", "false");
 
       // Recréer entièrement le dropdown avec les nouvelles options
       sortingContainer.removeChild(dropdown);
       initCustomSelect();
+
+      // Remettre le focus sur le select
+      setTimeout(() => {
+        const newCustomSelect =
+          sortingContainer.querySelector(".custom-select");
+        if (newCustomSelect) newCustomSelect.focus();
+      }, 0);
+    }
+
+    optionElement.addEventListener("click", selectOption);
+
+    // Ajouter un gestionnaire pour la touche Entrée
+    optionElement.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        selectOption();
+      }
     });
 
     dropdown.appendChild(optionElement);
   });
 
-  // Ajouter un événement au clic sur le select personnalisé
-  customSelect.addEventListener("click", (e) => {
+  // Fonction pour basculer l'affichage du dropdown
+  function toggleDropdown(e) {
     e.stopPropagation();
-    dropdown.style.display =
-      dropdown.style.display === "block" ? "none" : "block";
+    const isVisible = dropdown.style.display === "block";
+    dropdown.style.display = isVisible ? "none" : "block";
+    customSelect.setAttribute("aria-expanded", !isVisible);
+
+    // Si on ouvre le dropdown, mettre le focus sur la première option
+    if (!isVisible && dropdown.children.length > 0) {
+      setTimeout(() => dropdown.children[0].focus(), 0);
+    }
+  }
+
+  // Ajouter un événement au clic sur le select personnalisé
+  customSelect.addEventListener("click", toggleDropdown);
+
+  // Gestion du clavier pour le custom select
+  customSelect.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleDropdown(e);
+    } else if (e.key === "Escape" && dropdown.style.display === "block") {
+      e.preventDefault();
+      dropdown.style.display = "none";
+      customSelect.setAttribute("aria-expanded", "false");
+      customSelect.focus();
+    } else if (e.key === "ArrowDown" && dropdown.style.display === "block") {
+      e.preventDefault();
+      if (dropdown.children.length > 0) {
+        dropdown.children[0].focus();
+      }
+    }
+  });
+
+  // Navigation dans les options avec les flèches
+  dropdown.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      dropdown.style.display = "none";
+      customSelect.setAttribute("aria-expanded", "false");
+      customSelect.focus();
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const focused = document.activeElement;
+      const options = Array.from(dropdown.children);
+      const currentIndex = options.indexOf(focused);
+      if (currentIndex < options.length - 1) {
+        options[currentIndex + 1].focus();
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const focused = document.activeElement;
+      const options = Array.from(dropdown.children);
+      const currentIndex = options.indexOf(focused);
+      if (currentIndex > 0) {
+        options[currentIndex - 1].focus();
+      } else {
+        customSelect.focus();
+      }
+    }
   });
 
   // Fermer le dropdown au clic en dehors
   document.addEventListener("click", () => {
     dropdown.style.display = "none";
+    customSelect.setAttribute("aria-expanded", "false");
   });
 
   // Cacher le select original

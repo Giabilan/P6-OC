@@ -55,6 +55,13 @@ h1 {
   border-radius: 50%;
 }
 
+.photographer-clickable-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .photographer_section article h2 {
   color: #d3573c;
   font-size: 36px;
@@ -80,6 +87,7 @@ h1 {
   font-size: 9px;
   color: #757575;
   margin-top: 4px;
+  text-align: center;
 }
 
 #contact_modal {

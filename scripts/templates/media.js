@@ -14,15 +14,24 @@ function mediaTemplate(data, photographerName) {
       mediaElement = document.createElement("img");
       mediaElement.setAttribute("src", `${mediaPath}/${image}`);
       mediaElement.setAttribute("alt", title);
+      mediaElement.setAttribute("tabindex", "0");
+      mediaElement.setAttribute("role", "button");
+      mediaElement.setAttribute(
+        "aria-label",
+        `${title}, ouvrir dans la lightbox`
+      );
     }
     if (video) {
       mediaElement = document.createElement("video");
       mediaElement.setAttribute("src", `${mediaPath}/${video}`);
       mediaElement.setAttribute("controls", true);
       mediaElement.setAttribute("aria-label", title);
+      mediaElement.setAttribute("tabindex", "0");
+      mediaElement.setAttribute("role", "button");
     }
-    // Gestion du clic pour la lightbox
-    mediaElement.addEventListener("click", function (e) {
+
+    // Fonction pour ouvrir la lightbox
+    function openLightbox(e) {
       e.preventDefault();
       // Récupérer tous les médias pour les passer à la lightbox
       const allMedias = Array.from(
@@ -52,7 +61,18 @@ function mediaTemplate(data, photographerName) {
       // Créer et afficher la lightbox
       const lightbox = new Lightbox(allMedias, photographerName);
       lightbox.show(currentIndex);
+    }
+
+    // Gestion du clic pour la lightbox
+    mediaElement.addEventListener("click", openLightbox);
+
+    // Gestion du clavier pour la lightbox (accessibilité)
+    mediaElement.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        openLightbox(e);
+      }
     });
+
     // Création de la structure d'information du média
     const infoDiv = document.createElement("div");
     infoDiv.classList.add("media-info");
@@ -78,7 +98,9 @@ function mediaTemplate(data, photographerName) {
     heartIcon.setAttribute("tabindex", "0");
 
     let isLiked = false;
-    heartIcon.addEventListener("click", () => {
+
+    // Fonction pour gérer le like/unlike
+    function toggleLike() {
       if (!isLiked) {
         mediaLikes++;
         isLiked = true;
@@ -90,6 +112,16 @@ function mediaTemplate(data, photographerName) {
       }
       likesCount.textContent = mediaLikes;
       updateTotalLikes();
+    }
+
+    // Événement clic sur le cœur
+    heartIcon.addEventListener("click", toggleLike);
+
+    // Événement clavier (touche Entrée) pour l'accessibilité
+    heartIcon.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        toggleLike();
+      }
     });
 
     // Assemblage des éléments
